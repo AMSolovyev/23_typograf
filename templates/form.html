@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Типограф</title>
+    <title>Typograf</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -21,28 +21,52 @@
     <nav class="navbar">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="/">Типограф</a>
+          <a class="navbar-brand" href="/">Typograf</a>
         </div>
       </div>
     </nav>
 
     <div class="container">
-      <form method="POST">
+      <form class="js-form" method="POST">
         <div class="form-group">
-          <textarea name="text" class="form-control" rows="10" placeholder="Введите текст" autofocus></textarea>
+          <textarea name="text" class="form-control" rows="10" placeholder="Enter your text" autofocus></textarea>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-primary" type="submit">Сделать красиво</button>
+          <button id="btn" class="js-btn btn-primary" type="button">Нажми enter, чтобы сделать текст красивым</button>
         </div>
 
         <div class="form-group">
-          <textarea class="form-control" rows="10" placeholder="Здесь будет результат" disabled="disabled"></textarea>
+          <textarea class="js-result form-control" rows="10" placeholder="The result will be here"></textarea>
         </div>
       </form>
     </div><!-- /.container -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+    function postAjaxReq(){
+      var request = $.ajax({
+        url: "/typografy",
+        type: "POST",
+        data: $('form').serialize(),
+        dataType: "json"
+      });
+        
+      request.done(function(response) {
+        $(".js-result").html(response.text);
+      });
+        
+      request.fail(function(jqXHR, textStatus) {
+        $(".js-result").text("Request failed: " + textStatus);
+      });
+    };
+    
+    $(document).ready(function(){
+      $('.js-btn').click(postAjaxReq);
+    });
+    </script>
+  
   </body>
 </html>

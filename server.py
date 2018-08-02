@@ -14,7 +14,7 @@ def form():
     return render_template('form.html')
 
 
-@app.route('/typografy', methods=['POST'])
+@app.route('/typografy', methods=['GET', 'POST'])
 def typografy():
     typographed_text = typografy_text(request.form['text'])
     if typographed_text is None:
